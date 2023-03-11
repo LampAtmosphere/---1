@@ -3,25 +3,40 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class MainActivity extends AppCompatActivity {
+
     public static final String TAG = "StartActivity";
-    private Integer counter = 5;
+    private Integer counter = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "onCreate()", Toast.LENGTH_LONG).show();
-        Log.d(TAG, "onCreate");
     }
 
-    public void krutki(View view) {
-        counter++;
-        TextView counterWiew = findViewById(R.id.txt_counter);
-        counterWiew.setText(counter);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("counter", counter);
     }
-}
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null && savedInstanceState.containsKey("counter")) {
+            counter = savedInstanceState.getInt("counter");
+        }
+        ((TextView) findViewById(R.id.txt_counter)).setText(counter.toString());
+
+    }
+
+    public void onClickBtn(View view) {
+        counter = counter + 1000;
+        TextView counterView = findViewById(R.id.txt_counter);
+        counterView.setText(counter.toString());
+    }}
+
